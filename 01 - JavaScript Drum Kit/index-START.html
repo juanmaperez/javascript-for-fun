@@ -59,6 +59,32 @@
 
 <script>
 
+  function playSound(){
+    const audio = document.querySelector(`audio[data-key="${event.keyCode}"]`);
+    const key =  document.querySelector(`.key[data-key="${event.keyCode}"]`); 
+    if(!audio) return;
+
+    audio.currentTime = 0; // the playback will jump to the specified position then, we can initialize it again
+    audio.play();
+    key.classList.add('playing');
+
+    const keys = document.querySelectorAll('.key');
+    keys.forEach(key=> key.addEventListener('transitionend', removeTransition))
+  }
+
+
+  function removeTransition(e){
+    // here "this" reference to the key where the event listener has been added
+    if(e.propertyName !== 'transform') return;
+    this.classList.remove('playing');
+  }
+
+  window.addEventListener("keydown", playSound);
+
+ 
+
+
+
 </script>
 
 
