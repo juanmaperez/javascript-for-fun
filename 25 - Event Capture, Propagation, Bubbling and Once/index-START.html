@@ -39,6 +39,36 @@
 
 <button></button>
 <script>
+const divs = document.querySelectorAll('div');
+
+// Capture all elements and after it starts to fires each one from bottom to top
+function bubblingUp(e){
+  console.log('Bubbling Up', this.classList.value)
+}
+
+// Capture each element and fires it
+function captureDown(e){
+  console.log('Capture Down', this.classList.value)
+}
+
+// Stop the propagation of the event when it's fired (stop bubbling up)
+function eventPropagation(e){
+  console.log('StopPropagation', this.classList.value);
+  e.stopPropagation();
+}
+
+// we passed the option once: true to unbind this event and make it works only once time
+function onceEvent (){
+  console.log('Once Event only', this.classList.value);
+}
+
+divs.forEach(div => div.addEventListener('click', bubblingUp))
+divs.forEach(div => div.addEventListener('click', captureDown),{ capture : true })
+divs.forEach(div => div.addEventListener('click', eventPropagation))
+divs.forEach(div => div.addEventListener('click', onceEvent), {
+  capture: false, // by default
+  once: true,
+})
 
 </script>
 </body>
