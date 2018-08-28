@@ -28,7 +28,48 @@
 <script>
   const addItems = document.querySelector('.add-items');
   const itemsList = document.querySelector('.plates');
-  const items = [];
+  const items = JSON.parse(localStorage.getItem('items')) || [];
+
+  function addItem(e){
+    e.preventDefault();
+    const text = (this.querySelector('[name="item"]')).value;
+    const item = {
+      text,
+      done: true
+    }
+    
+    let add = items.some( el=> el.text === text)
+    !add ? items.push(item) : alert(`${text} ya existe en la lista`)
+
+    populateList(items, itemsList)
+    
+    localStorage.setItem('items', JSON.stringify(items));
+    this.reset();
+  }
+
+  function populateList(plates = [], platesList){
+    platesList.innerHTML = plates.map((plate,i) =>{
+      return `
+       
+        <li for="item${i}"> 
+          <input type="checkbox" data-item="${i}" id="item${i}" ${plate.done ? 'checked': ''}> 
+          <span>${plate.text}</span>
+          </li>
+       `
+    }).join('')
+  }
+
+  addItems.addEventListener('submit', addItem)
+  itemsList.addEventListener('click', (e)=>{
+    if(!e.target.matches('input')) return;
+    const idx = e.target.dataset.item;
+    items[idx].done = !items[idx].done;
+    localStorage.setItem('items', JSON.stringify(items));
+    populateList(items, itemsList)
+
+  })
+  populateList(items, itemsList)
+
 
 </script>
 

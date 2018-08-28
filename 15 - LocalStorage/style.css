@@ -46,16 +46,17 @@
       padding: 10px 0;
       font-weight: 100;
       display: flex;
+      flex-direction: row;
     }
 
     .plates label {
-      flex:1;
+      display:block;
       cursor: pointer;
-
+      
     }
 
     .plates input {
-      display: none;
+      display:block;
     }
 
     .plates input + label:before {
